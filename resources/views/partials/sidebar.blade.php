@@ -104,12 +104,23 @@
                 <p>Formation</p>
             </a>
             </li>
-
-            <li class="nav-item">
-            <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create'], 'active')  }}">
-                <i class="nav-icon fa fa-book"></i>
-                <p>SOP</p>
+            <li class="nav-item {{ setActive(['sop', 'sop.create', 'sop.edit'], 'menu-open')  }}">
+            <a href="#" class="nav-link {{ setActive(['sop', 'sop.create', 'sop.edit'], 'active')  }}">
+                <i class="nav-icon fa fa-file-pdf"></i>
+                <p>
+                SOP
+                <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
             </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create', 'sop.edit'], 'active')  }}">
+                    <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
+                    <p>SOP Diatas Kapal</p>
+                </a>
+                </li>
+                
+            </ul>
             </li>
 
             <li class="nav-item">

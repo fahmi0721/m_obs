@@ -15,7 +15,7 @@ class M_UnitController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table("m_unit")->select('id',"unit_id_tanos","nama")->orderBy("id","asc")->get();
+            $query = DB::table("m_unit")->select('id',"unit_id_tanos","nama","unit_type")->orderBy("id","asc")->get();
             return  Datatables::of($query)
                 ->addIndexColumn()
                 ->make(true);
@@ -68,12 +68,17 @@ class M_UnitController extends Controller
 
                 $unit_id_tanos = $row[0] ?? null; // A
                 $nama    = $row[1] ?? null; // B
+                $unit_type    = $row[2] ?? null; // B
 
                 if (empty($unit_id_tanos)) {
                     throw new \Exception("Row " . ($index+1) . ": unit id kosong");
                 }
                 if (empty($nama)) {
                     throw new \Exception("Row " . ($index+1) . ": nama unit kosong");
+                }
+
+                  if (empty($unit_type)) {
+                    throw new \Exception("Row " . ($index+1) . ": unit tipe kosong");
                 }
                 
 
@@ -82,11 +87,15 @@ class M_UnitController extends Controller
                 if ($exists) {
                     DB::table('m_unit')->where('unit_id_tanos', $unit_id_tanos)->update([
                         'nama' => $nama,
+                        'unit_type' => $unit_type,
+                        'updated_at' => now()
                     ]);
                 } else {
                     DB::table('m_unit')->insert([
                         'unit_id_tanos' => $unit_id_tanos,
                         'nama'    => $nama,
+                        'created_at' => now(),
+                        'updated_at' => now()
                     ]);
                 }
             }

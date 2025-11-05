@@ -37,6 +37,7 @@
                                 <th width='5%'>No</th>
                                 <th>Unit ID Tanos</th>
                                 <th>Unit</th>
+                                <th>Tipe Unit</th>
                             </tr>
                         </thead>
                     </table>
@@ -62,6 +63,7 @@ load_data = function(){
             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
             { data: 'unit_id_tanos', name: 'unit_id_tanos' },
             { data: 'nama', name: 'nama' },
+            { data: 'unit_type', name: 'unit_type' },
         ]
     });
     // Init tooltip setiap setelah table redraw

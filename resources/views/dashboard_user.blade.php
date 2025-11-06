@@ -102,6 +102,42 @@
         <div class="col-lg-12 col-12 mb-4">
             <div class="card">
                 <div class="card-header">
+                <h3 class="card-title"><b>Job Description</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
+                    <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    @if(!$sop_jabatan)
+                         <div class="p-3 text-center">
+                            <b>SOP untuk jabatan tidak ditemukan</b>
+                        </div>
+                    @else
+                    <iframe 
+                        src="{{ asset('uploads/sop_jabatan/'.$sop_jabatan->file) }}" 
+                        width="100%" 
+                        height="600px"
+                        style="border:none;">
+                    </iframe>
+                    @endif
+                <!-- /.table-responsive -->
+                </div>
+                
+                <!-- /.card-footer -->
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
                 <h3 class="card-title"><b>My Team</b></h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">

@@ -22,8 +22,25 @@ class DashboardController extends Controller
             $my_team = $this->getMyTeam();
             $sop = $this->getSop();
             $videos = $this->getVideo();
-            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos")); // view untuk user biasa
+            $sop_jabatan = $this->getSopJabatan();
+            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos","sop_jabatan")); // view untuk user biasa
         }
+    }
+
+    private function getSopJabatan(){
+         $nrp = Auth::user()->username; // anggap kolom username = nrp
+
+        $sop = DB::table('formation as f')
+            ->join('m_unit as u', 'u.unit_id_tanos', '=', 'f.unit_id')
+            ->join('sop_jabatan as sj', function ($join) {
+                $join->on('sj.job_id_tanos', '=', 'f.job_id')
+                    ->on('sj.unit_type', '=', 'u.unit_type');
+            })
+            ->select('sj.*')
+            ->where('f.nrp', $nrp)
+            ->first();
+
+        return $sop;
     }
 
     private function getVideo()

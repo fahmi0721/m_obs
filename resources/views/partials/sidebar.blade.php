@@ -2,10 +2,14 @@
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
-        <a href="../index.html" class="brand-link">
-            <img src="{{ getLogoAplikasi() }}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow">
+        <a href="#" class="brand-link">
+            <img src="{{ asset('uploads/images') }}/{{ getLogoAplikasi() }}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow">
             <span class="brand-text">{{ getNamaAplikasi() }}</span>
         </a>
+        <!-- <a href="../index.html" class="brand-link">
+            <img src="{{ getLogoAplikasi() }}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow">
+            <span class="brand-text">{{ getNamaAplikasi() }}</span>
+        </a> -->
         <!--end::Brand Link-->
     </div>
     <!--end::Sidebar Brand-->
@@ -104,8 +108,8 @@
                 <p>Formation</p>
             </a>
             </li>
-            <li class="nav-item {{ setActive(['sop', 'sop.create', 'sop.edit'], 'menu-open')  }}">
-            <a href="#" class="nav-link {{ setActive(['sop', 'sop.create', 'sop.edit'], 'active')  }}">
+            <li class="nav-item {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'menu-open')  }}">
+            <a href="#" class="nav-link {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'active')  }}">
                 <i class="nav-icon fa fa-file-pdf"></i>
                 <p>
                 SOP
@@ -114,7 +118,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'active')  }}">
+                <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create', 'sop.edit'], 'active')  }}">
                     <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
                     <p>SOP Diatas Kapal</p>
                 </a>

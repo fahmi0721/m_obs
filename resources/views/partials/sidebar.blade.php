@@ -114,9 +114,16 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create', 'sop.edit'], 'active')  }}">
+                <a href="{{ route('sop') }}" class="nav-link {{  setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'active')  }}">
                     <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
                     <p>SOP Diatas Kapal</p>
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a href="{{ route('sop_jabatan') }}" class="nav-link {{  setActive(['sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'active')  }}">
+                    <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
+                    <p>SOP Jabatan</p>
                 </a>
                 </li>
                 

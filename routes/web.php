@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -83,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
 use App\Http\Controllers\M_JobController;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_job', [M_JobController::class, 'index'])->name('job');
+    Route::get('/m_job/select', [M_JobController::class, 'select'])->name('job.select');
     Route::get('/m_job/add', [M_JobController::class, 'create'])->name('job.create');
     Route::post('/m_job/import', [M_JobController::class, 'store'])->name('job.save');
 });
@@ -95,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
 use App\Http\Controllers\M_UnitController;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_unit', [M_UnitController::class, 'index'])->name('unit');
+    Route::get('/m_unit/select', [M_UnitController::class, 'select'])->name('unit.select');
     Route::get('/m_unit/download', [M_UnitController::class, 'download'])->name('unit.template');
     Route::get('/m_unit/add', [M_UnitController::class, 'create'])->name('unit.create');
     Route::post('/m_unit/import', [M_UnitController::class, 'store'])->name('unit.save');
@@ -136,6 +137,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/sop/save', [SopController::class, 'store'])->name('sop.save');
     Route::put('/sop/update', [SopController::class, 'update'])->name('sop.update');
     Route::delete('/sop/destroy', [SopController::class, 'destroy'])->name('sop.destroy');
+});
+
+
+/**
+ * Route Master Data SOP Jabatan
+ */
+use App\Http\Controllers\SopJabatanController;
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/sop_jabatan', [SopJabatanController::class, 'index'])->name('sop_jabatan');
+    Route::get('/sop_jabatan/update/{id}', [SopJabatanController::class, 'edit'])->name('sop_jabatan.edit');
+    Route::get('/sop_jabatan/add', [SopJabatanController::class, 'create'])->name('sop_jabatan.create');
+    Route::post('/sop_jabatan/save', [SopJabatanController::class, 'store'])->name('sop_jabatan.save');
+    Route::put('/sop_jabatan/update', [SopJabatanController::class, 'update'])->name('sop_jabatan.update');
+    Route::delete('/sop_jabatan/destroy', [SopJabatanController::class, 'destroy'])->name('sop_jabatan.destroy');
 });
 
 

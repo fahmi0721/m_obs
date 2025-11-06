@@ -55,15 +55,17 @@ class SopJabatanController extends Controller
     public function edit($id)
     {
         // Ambil data SOP berdasarkan id
-        $sop = DB::table('sop_jabatan')->where('id', $id)->first();
+        $data = DB::table('sop_jabatan')->where('id', $id)->first();
 
         // Jika data tidak ditemukan
-        if (!$sop) {
+        if (!$data) {
             return redirect()->route('sop_jabatan')->with('error', 'Data tidak ditemukan.');
         }
-
+        $jabatan = DB::table('m_job')->where("job_id_tanos",$data->job_id_tanos)->first();
+        $unit_type = DB::table('m_unit')->where("unit_type",$data->unit_type)->first();
+// dd($unit_type);
         // Kirim data ke view edit
-        return view('page.sop_jabatan.edit', compact('sop'));
+       return view('page.sop_jabatan.edit', compact('data','id','jabatan','unit_type'));
     }
     /**
      * Store a newly created resource in storage.
@@ -73,12 +75,19 @@ class SopJabatanController extends Controller
         $validates 	= [
             "nama"  => "required",
             "unit_type"  => "required",
-            "job"  => "required",
+            "job_id_tanos"  => "required",
             "file"  => "required|mimes:pdf|max:2048",
             
         ];
 
-        $validation = Validator::make($request->all(), $validates);
+        $messages = [
+            "nama.required" => "Nama Wajib Diisi.",
+            "unit_type.required" => "Tipe Unit Wajib Diisi.",
+            "job_id_tanos.required" => "Jabatan  Wajib Diisi.",
+            "file.required" => "File Wajib Diisi."
+        ];
+
+        $validation = Validator::make($request->all(), $validates,$messages);
         if($validation->fails()) {
             return response()->json([
                 "status"    => "warning",
@@ -88,7 +97,7 @@ class SopJabatanController extends Controller
         DB::beginTransaction();
         try {
              // ✅ Siapkan folder tujuan upload
-            $uploadPath = public_path('uploads/sop/');
+            $uploadPath = public_path('uploads/sop_jabatan/');
             if (!file_exists($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
             }
@@ -101,14 +110,13 @@ class SopJabatanController extends Controller
                 $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
                 $file->move($uploadPath, $fileName);
             }
-            $data['kode'] = $request->kode;
             $data['nama'] = $request->nama;
-            $data['status'] = $request->status;
-            $data['deskripsi'] = $request->deskripsi;
+            $data['unit_type'] = $request->unit_type;
+            $data['job_id_tanos'] = $request->job_id_tanos;
             $data['file'] = $fileName;
             $data['created_at'] = Carbon::now();
             $data['updated_at'] = Carbon::now();
-            $id = DB::table("sop")->insert($data);
+            $id = DB::table("sop_jabatan")->insert($data);
             DB::commit();
             return response()->json(['status'=>'success', 'messages'=>"Data berhasil disimpan."], 200);
         } catch(QueryException $e) { 
@@ -120,17 +128,25 @@ class SopJabatanController extends Controller
 
     public function update(Request $request)
     {
-        $validates = [
-            "kode"   => "required",
-            "nama"   => "required",
-            "status" => "required",
+       $validates 	= [
+            "nama"  => "required",
+            "unit_type"  => "required",
+            "job_id_tanos"  => "required",
+            
+        ];
+
+        $messages = [
+            "nama.required" => "Nama Wajib Diisi.",
+            "unit_type.required" => "Tipe Unit Wajib Diisi.",
+            "job_id_tanos.required" => "Jabatan  Wajib Diisi.",
         ];
 
         if ($request->hasFile('file')) {
-            $rules['file'] = 'mimes:pdf|max:2048';
+            $validates['file'] = 'mimes:pdf|max:2048';
+            $messages["file.required"] = "File Wajib Diisi.";
         }
 
-        $validation = Validator::make($request->all(), $validates);
+        $validation = Validator::make($request->all(), $validates,$messages);
         if($validation->fails()) {
             return response()->json([
                 "status"    => "warning",
@@ -140,12 +156,12 @@ class SopJabatanController extends Controller
 
         DB::beginTransaction();
         try {
-            $sop = DB::table('sop')->where('id', $request->id)->first();
+            $sop = DB::table('sop_jabatan')->where('id', $request->id)->first();
             if (!$sop) {
                 return response()->json(['status'=>'warning', 'messages'=>'Data tidak ditemukan.'], 404);
             }
 
-            $uploadPath = public_path('uploads/sop/');
+            $uploadPath = public_path('uploads/sop_jabatan/');
             if (!file_exists($uploadPath)) mkdir($uploadPath, 0777, true);
 
             $fileName = $sop->file;
@@ -159,11 +175,10 @@ class SopJabatanController extends Controller
                 $file->move($uploadPath, $fileName);
             }
 
-            DB::table('sop')->where('id', $request->id)->update([
-                'kode'       => $request->kode,
+            DB::table('sop_jabatan')->where('id', $request->id)->update([
                 'nama'       => $request->nama,
-                'status'     => $request->status,
-                'deskripsi'  => $request->deskripsi,
+                'unit_type'     => $request->unit_type,
+                'job_id_tanos'  => $request->job_id_tanos,
                 'file'       => $fileName,
                 'updated_at' => now(),
             ]);
@@ -186,7 +201,7 @@ class SopJabatanController extends Controller
         DB::beginTransaction();
         try {
             // Ambil data berdasarkan id
-            $sop = DB::table('sop')->where('id', $request->id)->first();
+            $sop = DB::table('sop_jabatan')->where('id', $request->id)->first();
 
             if (!$sop) {
                 return response()->json([
@@ -197,14 +212,14 @@ class SopJabatanController extends Controller
 
             // Hapus file dari folder jika ada
             if ($sop->file) {
-                $filePath = public_path('template/sop/' . $sop->file);
+                $filePath = public_path('uploads/sop_jabatan/' . $sop->file);
                 if (file_exists($filePath)) {
                     @unlink($filePath);
                 }
             }
 
             // Hapus data dari database
-            DB::table('sop')->where('id', $request->id)->delete();
+            DB::table('sop_jabatan')->where('id', $request->id)->delete();
 
             DB::commit();
 

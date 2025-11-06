@@ -24,6 +24,20 @@ class M_UnitController extends Controller
         }
     }
 
+    public function select(Request $request)
+    {
+        $query = $request->get('q');
+        $m_akun = DB::table("m_unit")
+        ->select('unit_type')
+        ->distinct()
+        ->where('unit_type', '!=', '')
+        ->where('unit_type', 'like', '%' . $query . '%')
+        ->orderBy('unit_type', 'asc')
+        ->get();
+        return response()->json($m_akun);
+    }
+
+
     
     /**
      * Show the form for creating a new resource.

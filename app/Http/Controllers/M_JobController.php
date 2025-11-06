@@ -24,9 +24,19 @@ class M_JobController extends Controller
         }
     }
 
+
+     public function select(Request $request)
+    {
+        $query = $request->get('q');
+        $m_akun = DB::table("m_job")->where('nama','like','%'.$query.'%')->orderBy('nama','asc')->get();
+        return response()->json($m_akun);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
+    
     public function create()
     {
         return view("page.m_job.tambah");

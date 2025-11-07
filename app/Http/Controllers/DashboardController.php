@@ -15,7 +15,20 @@ class DashboardController extends Controller
 
         // Cek role user (misal field level atau role di tabel user)
         if ($user->level === 'admin') {
-            return view('dashboard'); // view untuk admin
+            $dashboard = DB::table('formation as f')
+            ->selectRaw("
+                COUNT(DISTINCT f.nrp) as total_employee,
+                COUNT(DISTINCT u.id) as total_unit,
+                COUNT(DISTINCT j.id) as total_job,
+                COUNT(DISTINCT e.id) as total_entitas
+            ")
+            ->join('employee as emp', 'emp.nrp', '=', 'f.nrp')
+            ->join('m_unit as u', 'u.unit_id_tanos', '=', 'f.unit_id')
+            ->join('m_job as j', 'j.job_id_tanos', '=', 'f.job_id')
+            ->join('m_project as p', 'p.project_code', '=', 'f.project_code')
+            ->join('m_entitas as e', 'e.id', '=', 'p.entitas_id')
+            ->first();
+            return view('dashboard',compact("dashboard")); // view untuk admin
         } else {
             $mydata = $this->getMydata();
             $countMyTeam = $this->countMyTeam();

@@ -83,7 +83,8 @@ class AturanLaranganController extends Controller
         DB::beginTransaction();
         try {
              // ✅ Siapkan folder tujuan upload
-            $uploadPath = public_path('uploads/aturan_larangan/');
+            $uploadPath = base_path('../../public_html/tes/uploads/aturan_larangan/');
+            // $uploadPath = public_path('uploads/aturan_larangan/');
             if (!file_exists($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
             }
@@ -141,7 +142,8 @@ class AturanLaranganController extends Controller
                 return response()->json(['status'=>'warning', 'messages'=>'Data tidak ditemukan.'], 404);
             }
 
-            $uploadPath = public_path('uploads/aturan_larangan/');
+            $uploadPath = base_path('../../public_html/tes/uploads/aturan_larangan/');
+            // $uploadPath = public_path('uploads/aturan_larangan/');
             if (!file_exists($uploadPath)) mkdir($uploadPath, 0777, true);
 
             $fileName = $sop->file;
@@ -190,7 +192,8 @@ class AturanLaranganController extends Controller
 
             // Hapus file dari folder jika ada
             if ($sop->file) {
-                $filePath = public_path('uploads/aturan_larangan/' . $sop->file);
+                $filePath = base_path('../../public_html/tes/uploads/aturan_larangan/'.$sop->file);
+                // $filePath = public_path('uploads/aturan_larangan/' . $sop->file);
                 if (file_exists($filePath)) {
                     @unlink($filePath);
                 }

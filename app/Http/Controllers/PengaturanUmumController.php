@@ -14,7 +14,8 @@ class PengaturanUmumController extends Controller
     
     public function __construct()
     {
-        $this->path = public_path(config('custom.upload_images'));
+        $this->path = base_path('../../public_html/tes/uploads/images/');
+        // $this->path = public_path(config('custom.upload_images'));
     }
     public function index()
     {

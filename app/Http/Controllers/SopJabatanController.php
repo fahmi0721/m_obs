@@ -97,7 +97,8 @@ class SopJabatanController extends Controller
         DB::beginTransaction();
         try {
              // ✅ Siapkan folder tujuan upload
-            $uploadPath = public_path('uploads/sop_jabatan/');
+            // $uploadPath = public_path('uploads/sop_jabatan/');
+            $uploadPath = base_path('../../public_html/tes/uploads/sop_jabatan/');
             if (!file_exists($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
             }
@@ -161,7 +162,8 @@ class SopJabatanController extends Controller
                 return response()->json(['status'=>'warning', 'messages'=>'Data tidak ditemukan.'], 404);
             }
 
-            $uploadPath = public_path('uploads/sop_jabatan/');
+            // $uploadPath = public_path('uploads/sop_jabatan/');
+            $uploadPath = base_path('../../public_html/tes/uploads/sop_jabatan/');
             if (!file_exists($uploadPath)) mkdir($uploadPath, 0777, true);
 
             $fileName = $sop->file;
@@ -212,7 +214,8 @@ class SopJabatanController extends Controller
 
             // Hapus file dari folder jika ada
             if ($sop->file) {
-                $filePath = public_path('uploads/sop_jabatan/' . $sop->file);
+                $filePath = base_path('../../public_html/tes/uploads/sop_jabatan/'.$sop->file);
+                // $filePath = public_path('uploads/sop_jabatan/' . $sop->file);
                 if (file_exists($filePath)) {
                     @unlink($filePath);
                 }

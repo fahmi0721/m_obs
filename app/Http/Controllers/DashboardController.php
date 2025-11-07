@@ -23,8 +23,17 @@ class DashboardController extends Controller
             $sop = $this->getSop();
             $videos = $this->getVideo();
             $sop_jabatan = $this->getSopJabatan();
-            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos","sop_jabatan")); // view untuk user biasa
+            $aturan = $this->getAtiranLarangan();
+            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos","sop_jabatan","aturan")); // view untuk user biasa
         }
+    }
+
+    private function getAtiranLarangan(){
+         $nrp = Auth::user()->username; // anggap kolom username = nrp
+
+        $query = DB::table('aturan_larangan');
+        $data = $query->get();
+        return $data;
     }
 
     private function getSopJabatan(){

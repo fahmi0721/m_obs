@@ -134,6 +134,48 @@
             </div>
         </div>
 
+          <div class="col-lg-12 col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                <h3 class="card-title"><b>Daftar Aturan dan Disiplin Kerja</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
+                    <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th width='5%'>No</th>
+                                <th>Nomor</th>
+                                <th>File</th>
+                            </tr>
+                        </thead>
+                        @php $no=1; @endphp
+                        @foreach($aturan as $aturans)
+                            <tr>
+                                <td>{{ $no }}</td>
+                                <td>{{ $aturans->nama }}</td>
+                                <td><button class="btn btn-info btn-sm btn-view" data-id="{{ $aturans->id }}"  data-url="{{ asset('uploads/aturan_larangan/' . $aturans->file) }}" data-bs-toggle="tooltip" title="Lihat SOP"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                        @php $no++ @endphp
+                        @endforeach
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </div>
+
 
         <div class="col-lg-12 col-12 mb-4">
             <div class="card">
@@ -155,7 +197,7 @@
                     <table class='table table-striped'>
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th width='5%'>No</th>
                                 <th>NRP</th>
                                 <th>Nama</th>
                                 <th>Jabatan</th>
@@ -203,7 +245,7 @@
                     <table class='table table-striped'>
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th width='5%'>No</th>
                                 <th>Nomor</th>
                                 <th>Nama</th>
                                 <th>File SOP</th>
@@ -226,6 +268,8 @@
                 <!-- /.card-footer -->
             </div>
         </div>
+
+      
 
         <div class="col-lg-12 col-12">
             <div class="card">

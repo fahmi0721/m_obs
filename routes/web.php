@@ -155,6 +155,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 /**
+ * Route Master Data Aturan & Larangan
+ */
+use App\Http\Controllers\AturanLaranganController;
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/aturan_larangan', [AturanLaranganController::class, 'index'])->name('aturan_larangan');
+    Route::get('/aturan_larangan/update/{id}', [AturanLaranganController::class, 'edit'])->name('aturan_larangan.edit');
+    Route::get('/aturan_larangan/add', [AturanLaranganController::class, 'create'])->name('aturan_larangan.create');
+    Route::post('/aturan_larangan/save', [AturanLaranganController::class, 'store'])->name('aturan_larangan.save');
+    Route::put('/aturan_larangan/update', [AturanLaranganController::class, 'update'])->name('aturan_larangan.update');
+    Route::delete('/aturan_larangan/destroy', [AturanLaranganController::class, 'destroy'])->name('aturan_larangan.destroy');
+});
+
+
+/**
  * Route Master Data Video
  */
 use App\Http\Controllers\VideoController;

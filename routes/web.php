@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('/change_password', [AuthController::class, 'change_password'])->name('change_password')->middleware('auth');
+Route::put('/change_password', [AuthController::class, 'update_password'])->name('update_password')->middleware('auth');
+
 
 /**
  * Route Pengaturan Umum
@@ -27,6 +30,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/my_profil', [TenagaKerjaController::class, 'index'])->name('profil');
     Route::get('/regional', [TenagaKerjaController::class, 'getRegional'])->name('api.regional');
+    Route::get('/map-unit', [DashboardController::class, 'index']);
+    Route::get('/api/map-data', [DashboardController::class, 'mapData']);
+    Route::get('/api/select-entitas', [DashboardController::class, 'entitas'])->name('select.entitas');
+    Route::get('/api/select-regional', [DashboardController::class, 'regional'])->name('select.regional');
+    Route::get('/api/select-nrp', [DashboardController::class, 'nrp'])->name('select.nrp');
 });
 
 
@@ -137,6 +145,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/sop/save', [SopController::class, 'store'])->name('sop.save');
     Route::put('/sop/update', [SopController::class, 'update'])->name('sop.update');
     Route::delete('/sop/destroy', [SopController::class, 'destroy'])->name('sop.destroy');
+});
+
+
+/**
+ * Route Master Data EDARAN
+ */
+use App\Http\Controllers\EdaranController;
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/edaran', [EdaranController::class, 'index'])->name('edaran');
+    Route::get('/edaran/update/{id}', [EdaranController::class, 'edit'])->name('edaran.edit');
+    Route::get('/edaran/add', [EdaranController::class, 'create'])->name('edaran.create');
+    Route::post('/edaran/save', [EdaranController::class, 'store'])->name('edaran.save');
+    Route::put('/edaran/update', [EdaranController::class, 'update'])->name('edaran.update');
+    Route::delete('/edaran/destroy', [EdaranController::class, 'destroy'])->name('edaran.destroy');
 });
 
 

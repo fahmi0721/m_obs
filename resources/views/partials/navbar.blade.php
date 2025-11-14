@@ -56,7 +56,7 @@
             <!--end::Menu Body-->
             <!--begin::Menu Footer-->
             <li class="user-footer">
-                <a href="#" class="btn btn-success btn-flat btn-sm"><i class="fa fa-edit"></i> Change Passwpord</a>
+                <a href="{{ route('change_password') }}" class="btn btn-success btn-flat btn-sm"><i class="fa fa-edit"></i> Change Passwpord</a>
                 <!-- tombol logout simple -->
                 @auth
                 <form method="POST" action="{{ route('logout') }}" class='float-end'>

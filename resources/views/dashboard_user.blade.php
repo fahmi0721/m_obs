@@ -134,6 +134,62 @@
             </div>
         </div>
 
+        <div class="col-lg-12 col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                <h3 class="card-title"><b>Surat Edaran</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
+                    <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    @if(!$edarans)
+                         <div class="p-3 text-center">
+                            <b>Surat Edaran Belum Ada</b>
+                        </div>
+                    @else
+                    <div class="table-responsive">
+                        <table class='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th width='5%'>No</th>
+                                    <th>No Surat</th>
+                                    <th>Perihal</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            @php 
+                                $no=1; 
+                            @endphp
+                            
+                            @foreach($edarans as $edaran)
+                                <tr>
+                                    <td>{{ $no }}</td>
+                                    <td>{{ $edaran->no_surat }}</td>
+                                    <td>{{ $edaran->perihal }}</td>
+                                    <td>{{ Carbon\Carbon::parse($edaran->tanggal_surat)->translatedFormat('d F Y'); }}</td>
+                                    <td><button class="btn btn-info btn-sm btn-view" data-id="{{ $edaran->id }}"  data-url="{{ asset('uploads/edaran/' . $edaran->file) }}" data-bs-toggle="tooltip" title="Lihat Surat Edaran"><i class="fas fa-file-pdf"></i></button></td>
+                                </tr>
+                            @php $no++ @endphp
+                            @endforeach
+                        </table>
+                    </div>
+                    @endif
+                <!-- /.table-responsive -->
+                </div>
+                
+                <!-- /.card-footer -->
+            </div>
+        </div>
+
           <div class="col-lg-12 col-12 mb-4">
             <div class="card">
                 <div class="card-header">

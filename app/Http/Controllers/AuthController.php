@@ -14,6 +14,26 @@ class AuthController extends Controller
         return view('form-login');
     }
 
+    public function change_password()
+    {
+        return view('ubah_password');
+    }
+
+    public function update_password(Request $request){
+        $request->validate([
+            'password_lama' => ['required', 'current_password'], 
+            'password_baru' => ['required', 'string', 'min:8'],
+            'komfirm_password_baru'   => ['required', 'same:password_baru'],
+        ]);
+
+        // Update password
+        $user = auth()->user();
+        $user->password = bcrypt($request->password_baru);
+        $user->save(); // <-- WAJIB ADA!
+
+        return response()->json(['status'=>'success', 'messages'=>'Password berhasil diubah.'], 201);
+    }
+
     // Proses login
     public function login(Request $request) {
         $validates 	= [

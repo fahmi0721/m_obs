@@ -28,7 +28,10 @@ class DashboardController extends Controller
             ->join('m_project as p', 'p.project_code', '=', 'f.project_code')
             ->join('m_entitas as e', 'e.id', '=', 'p.entitas_id')
             ->first();
-            return view('dashboard',compact("dashboard")); // view untuk admin
+            $regional = DB::table('m_regional')->orderBy('nama')->get();
+            $entitas  = DB::table('m_entitas')->orderBy('nama')->get();
+
+            return view('dashboard',compact("dashboard","regional","entitas")); // view untuk admin
         } else {
             $mydata = $this->getMydata();
             $countMyTeam = $this->countMyTeam();
@@ -37,9 +40,101 @@ class DashboardController extends Controller
             $videos = $this->getVideo();
             $sop_jabatan = $this->getSopJabatan();
             $aturan = $this->getAtiranLarangan();
-            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos","sop_jabatan","aturan")); // view untuk user biasa
+            $edarans = $this->getEdaran();
+            return view('dashboard_user',compact("mydata","countMyTeam","my_team","sop","videos","sop_jabatan","aturan","edarans")); // view untuk user biasa
         }
     }
+
+    public function nrp(Request $request){
+        $query = $request->get('q');
+        $data = DB::table("employee")
+            ->where(function($q) use ($query) {
+                $q->where('nama', 'like', "%{$query}%")
+                ->orWhere('nrp', 'like', "%{$query}%");
+            })
+            ->orderBy('nama', 'asc')
+            ->get();
+        return response()->json($data);
+    }
+
+    public function regional(Request $request){
+        $query = $request->get('q');
+        $data = DB::table("m_regional")->where('nama','like','%'.$query.'%')->orderBy('nama','asc')->get();
+        return response()->json($data);
+    }
+
+    public function entitas(Request $request){
+        $query = $request->get('q');
+        $m_akun = DB::table("m_entitas")->where('nama','like','%'.$query.'%')->orderBy('nama','asc')->get();
+        return response()->json($m_akun);
+    }
+
+    public function mapData(Request $request)
+    {
+        $entitas  = $request->entitas;
+        $regional = $request->regional;
+        $nrp      = $request->nrp; // filter NRP
+
+        $query = DB::table('formation as f')
+            ->join('m_regional as r', 'r.regional_id_tanos', '=', 'f.regional_id')
+            ->join('m_unit as u', 'u.unit_id_tanos', '=', 'f.unit_id')
+            ->join('employee as e', 'e.nrp', '=', 'f.nrp')
+            ->join('m_job as j', 'j.job_id_tanos', '=', 'f.job_id')
+            ->join('m_project as p', 'p.project_code', '=', 'f.project_code')
+            ->join('m_entitas as t', 't.id', '=', 'p.entitas_id')
+            ->select(
+                'r.regional_id_tanos','r.nama as regional','r.latitude','r.longitude',
+                'u.unit_id_tanos','u.nama as unit','u.unit_type',
+                'e.nrp','e.nama as employee',
+                'j.nama as job',
+                't.id as entitas_id','t.nama as entitas'
+            );
+
+        if ($entitas)  $query->where('t.id', $entitas);
+        if ($regional) $query->where('r.regional_id_tanos', $regional);
+        if ($nrp)      $query->where('e.nrp', 'like', "%$nrp%"); // filter NRP
+
+        $data = $query->get()->groupBy('regional_id_tanos');
+
+        $result = [];
+        foreach ($data as $regional_id => $items) {
+            $first = $items[0];
+
+            $units = [];
+            foreach ($items->groupBy('unit_id_tanos') as $unit_id => $u) {
+                $units[] = [
+                    'unit_id'   => $unit_id,
+                    'unit'      => $u[0]->unit,
+                    'unit_type' => $u[0]->unit_type,
+                    'crew'      => $u->map(fn($x) => [
+                        'nrp' => $x->nrp,
+                        'nama' => $x->employee,
+                        'job'  => $x->job
+                    ])
+                ];
+            }
+
+            $result[] = [
+                'regional_id' => $regional_id,
+                'regional'    => $first->regional,
+                'lat'         => $first->latitude,
+                'lng'         => $first->longitude,
+                'units'       => $units
+            ];
+        }
+
+        return response()->json($result);
+    }
+
+
+    private function getEdaran(){
+         $nrp = Auth::user()->username; // anggap kolom username = nrp
+
+        $query = DB::table('surat_edaran');
+        $data = $query->get();
+        return $data;
+    }
+
 
     private function getAtiranLarangan(){
          $nrp = Auth::user()->username; // anggap kolom username = nrp

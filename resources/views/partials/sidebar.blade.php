@@ -108,11 +108,11 @@
                 <p>Formation</p>
             </a>
             </li>
-            <li class="nav-item {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit','aturan_larangan', 'aturan_larangan.create', 'aturan_larangan.edit'], 'menu-open')  }}">
-            <a href="#" class="nav-link {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit','aturan_larangan', 'aturan_larangan.create', 'aturan_larangan.edit'], 'active')  }}">
+            <li class="nav-item {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit','aturan_larangan', 'aturan_larangan.create', 'aturan_larangan.edit','edaran', 'edaran.create', 'edaran.edit'], 'menu-open')  }}">
+            <a href="#" class="nav-link {{ setActive(['sop', 'sop.create', 'sop.edit','sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit','aturan_larangan', 'aturan_larangan.create', 'aturan_larangan.edit','edaran', 'edaran.create', 'edaran.edit'], 'active')  }}">
                 <i class="nav-icon fa fa-file-pdf"></i>
                 <p>
-                SOP
+                SOP & Surat Edaran
                 <i class="nav-arrow bi bi-chevron-right"></i>
                 </p>
             </a>
@@ -128,6 +128,13 @@
                 <a href="{{ route('sop_jabatan') }}" class="nav-link {{  setActive(['sop_jabatan', 'sop_jabatan.create', 'sop_jabatan.edit'], 'active')  }}">
                     <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
                     <p>SOP Jabatan</p>
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a href="{{ route('edaran') }}" class="nav-link {{  setActive(['edaran', 'edaran.create', 'edaran.edit'], 'active')  }}">
+                    <i class="nav-icon fa fa-chevron-right fa-reguler"></i>
+                    <p>Surat Edaran</p>
                 </a>
                 </li>
 

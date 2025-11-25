@@ -108,6 +108,7 @@ class M_UnitController extends Controller
                     DB::table('m_unit')->insert([
                         'unit_id_tanos' => $unit_id_tanos,
                         'nama'    => $nama,
+                        'unit_type' => $unit_type,
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);

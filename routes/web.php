@@ -91,6 +91,7 @@ use App\Http\Controllers\M_JobController;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_job', [M_JobController::class, 'index'])->name('job');
     Route::get('/m_job/select', [M_JobController::class, 'select'])->name('job.select');
+    Route::get('/m_job/download', [M_JobController::class, 'download'])->name('job.template');
     Route::get('/m_job/add', [M_JobController::class, 'create'])->name('job.create');
     Route::post('/m_job/import', [M_JobController::class, 'store'])->name('job.save');
 });

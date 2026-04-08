@@ -25,7 +25,13 @@
     <div class="row">
         <div class="col-8">
             <div class="card card-success card-outline mb-4">
-                <div class="card-header"><div class="card-title">Upload Jabatan</div></div>
+                <div class="card-header d-flex  align-items-center">
+                    <h5 class="mb-0">Upload Jabatan</h5>
+                    <a href="{{ route('job.template') }}" class="btn btn-primary btn-sm ms-auto">
+                        <i class="fas fa-download"></i> Download Template
+                    </a>
+                </div>
+                <!-- <div class="card-header"><div class="card-title">Upload Jabatan</div></div> -->
                 <!--end::Header-->
                 <!--begin::Form-->
                 <form action='javascript:void(0)' enctype="multipart/form-data" id="form_data">

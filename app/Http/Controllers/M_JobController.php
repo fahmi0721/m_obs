@@ -24,6 +24,21 @@ class M_JobController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function download()
+    {
+        $filePath = public_path('template/unit.xlsx');
+        $fileName = 'template_unit.xlsx';
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File tidak ditemukan.');
+        }
+
+        return response()->download($filePath, $fileName);
+    }
+    
 
      public function select(Request $request)
     {

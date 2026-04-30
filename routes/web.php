@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_formation/download', [FormationController::class, 'download'])->name('formation.template');
     Route::get('/m_formation/add', [FormationController::class, 'create'])->name('formation.create');
     Route::post('/m_formation/import', [FormationController::class, 'store'])->name('formation.save');
+    Route::get('/m_formation/export', [FormationController::class, 'export'])->name('formation.export');
 });
 
 

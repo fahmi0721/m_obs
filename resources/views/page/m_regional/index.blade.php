@@ -63,12 +63,12 @@ load_data = function(){
             { data: 'regional_id_tanos', name: 'regional_id_tanos' },
             { data: 'nama', name: 'nama' },
         ],
-        dom: '<"d-flex justify-content-between align-items-center mb-2"lBf>rtip',
-        buttons: [
-            { extend: 'excelHtml5', text: '<i class="fas fa-file-excel"></i> Excel', className: 'btn btn-success btn-sm' },
-            { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf"></i> PDF', className: 'btn btn-danger btn-sm' },
-            { extend: 'print', text: '<i class="fas fa-print"></i> Print', className: 'btn btn-secondary btn-sm' },
-        ]
+        // dom: '<"d-flex justify-content-between align-items-center mb-2"lBf>rtip',
+        // buttons: [
+        //     { extend: 'excelHtml5', text: '<i class="fas fa-file-excel"></i> Excel', className: 'btn btn-success btn-sm' },
+        //     { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf"></i> PDF', className: 'btn btn-danger btn-sm' },
+        //     { extend: 'print', text: '<i class="fas fa-print"></i> Print', className: 'btn btn-secondary btn-sm' },
+        // ]
     });
     // Init tooltip setiap setelah table redraw
     $('#tb_data').on('draw.dt', function () {

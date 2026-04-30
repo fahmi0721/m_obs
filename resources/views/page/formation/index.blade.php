@@ -26,9 +26,14 @@
             <div class="card card-success card-outline mb-4">
                 <div class="card-header d-flex  align-items-center">
                     <h5 class="mb-0">Data Formasi</h5>
-                    <a href="{{ route('formation.create') }}" class="btn btn-success btn-sm ms-auto">
-                        <i class="fas fa-plus-square"></i> Upload
-                    </a>
+                    <div class="ms-auto">
+                        <a href="{{ route('formation.export') }}" class="btn btn-primary btn-sm ms-auto">
+                            <i class="fas fa-file-excel"></i> Export
+                        </a>
+                        <a href="{{ route('formation.create') }}" class="btn btn-success btn-sm ms-auto">
+                            <i class="fas fa-plus-square"></i> Upload
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <table id="tb_data" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
@@ -62,11 +67,11 @@ load_data = function(){
         responsive: true,
         ajax: "{{ route('formation') }}",
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            { data: 'formation_id_tanos', name: 'formation_id_tanos' },
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'formation_id_tanos', name: 'f.formation_id_tanos' },
             { data: 'employee', name: 'employee' },
-            { data: 'formation_name', name: 'formation_name' },
-            { data: 'project', name: 'project' },
+            { data: 'formation_name', name: 'f.nama' },
+            { data: 'project', name: 'f.project_code' },
             { data: 'entitas_regional_unit', name: 'entitas_regional_unit' },
         ]
     });

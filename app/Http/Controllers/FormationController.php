@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ProjectsImport;
+use App\Exports\FormationExport;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Validator;
@@ -28,14 +29,40 @@ class FormationController extends Controller
                     'f.nama as formation_name',
                     DB::raw("CONCAT(em.nrp, ' - ',em.nama) as employee"),
                     DB::raw("CONCAT(e.nama, ' / ', r.nama, ' / ', u.nama) as entitas_regional_unit")
-                )
-                ->get();
+                );
             return  Datatables::of($query)
                 ->addIndexColumn()
+                ->filterColumn('formation_id_tanos', function ($query, $keyword) {
+                    $query->where("f.formation_id_tanos ","LIKE", "%{$keyword}%");
+                })
+                ->filterColumn('employee', function ($query, $keyword) {
+                    $query->where(DB::raw("CONCAT(em.nrp, ' - ', em.nama)"), 'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('formation_name', function ($query, $keyword) {
+                    $query->where('f.nama', 'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('project', function ($query, $keyword) {
+                    $query->where('f.project_code', 'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('entitas_regional_unit', function ($query, $keyword) {
+                    $query->where(function ($q) use ($keyword) {
+                        $q->where('e.nama', 'LIKE', "%{$keyword}%")
+                          ->orWhere('r.nama', 'LIKE', "%{$keyword}%")
+                          ->orWhere('u.nama', 'LIKE', "%{$keyword}%");
+                    });
+                })
                 ->make(true);
         }else{
             return view("page.formation.index");
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function export()
+    {
+       return Excel::download(new FormationExport, 'formation.xlsx');
     }
 
 
@@ -110,32 +137,15 @@ class FormationController extends Controller
                 if (empty($nrp)) {
                     throw new \Exception("Row " . ($index+1) . ": NRP id kosong");
                 }
-                
-
-                
-
-                $exists = DB::table('formation')->where('formation_id_tanos', $formation_id_tanos)->first();
-
-                if ($exists) {
-                    DB::table('formation')->where('formation_id_tanos', $formation_id_tanos)->update([
-                        'nama' => $nama,
-                        'project_code' => $project_code,
-                        'unit_id' => $unit_id,
-                        'job_id' => $job_id,
-                        'regional_id' => $regional_id,
-                        'nrp' => $nrp,
-                    ]);
-                } else {
-                    DB::table('formation')->insert([
-                        'formation_id_tanos' => $formation_id_tanos,
-                        'nama' => $nama,
-                        'project_code' => $project_code,
-                        'unit_id' => $unit_id,
-                        'job_id' => $job_id,
-                        'regional_id' => $regional_id,
-                        'nrp' => $nrp,
-                    ]);
-                }
+                DB::table('formation')->insert([
+                    'formation_id_tanos' => $formation_id_tanos,
+                    'nama' => $nama,
+                    'project_code' => $project_code,
+                    'unit_id' => $unit_id,
+                    'job_id' => $job_id,
+                    'regional_id' => $regional_id,
+                    'nrp' => $nrp,
+                ]);
             }
 
             DB::commit();

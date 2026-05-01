@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ProjectsImport;
+use App\Exports\ProjectExport;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Validator;
@@ -17,14 +18,18 @@ class M_ProjectController extends Controller
         if($request->ajax()){
             $projects = DB::table('m_project')
             ->join('m_entitas', 'm_project.entitas_id', '=', 'm_entitas.id')
-            ->select('m_project.*', 'm_entitas.nama')
-            ->get();
+            ->select('m_project.*', 'm_entitas.nama');
             return  Datatables::of($projects)
             ->addIndexColumn()
             ->make(true);
         }else{
             return view("page.m_project.index");
         }
+    }
+
+    public function export()
+    {
+       return Excel::download(new ProjectExport, 'project.xlsx');
     }
 
      

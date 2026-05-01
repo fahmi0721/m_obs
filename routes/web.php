@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_project/download', [M_ProjectController::class, 'download'])->name('project.template');
     Route::get('/m_project/add', [M_ProjectController::class, 'create'])->name('project.create');
     Route::post('/m_project/import', [M_ProjectController::class, 'store'])->name('project.save');
+    Route::get('/m_project/export', [M_ProjectController::class, 'export'])->name('project.export');
 });
 
 

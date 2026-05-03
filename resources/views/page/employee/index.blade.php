@@ -26,9 +26,15 @@
             <div class="card card-success card-outline mb-4">
                 <div class="card-header d-flex  align-items-center">
                     <h5 class="mb-0">Data Employee</h5>
-                    <a href="{{ route('employee.create') }}" class="btn btn-success btn-sm ms-auto">
-                        <i class="fas fa-plus-square"></i> Upload
-                    </a>
+                    <div class="ms-auto">
+                        <a href="{{ route('employee.export') }}" class="btn btn-primary btn-sm ms-auto">
+                            <i class="fas fa-file-excel"></i> Export
+                        </a>
+                        <a href="{{ route('employee.create') }}" class="btn btn-success btn-sm ms-auto">
+                            <i class="fas fa-plus-square"></i> Upload
+                        </a>
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <table id="tb_data" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
@@ -64,7 +70,7 @@ load_data = function(){
         responsive: true,
         ajax: "{{ route('employee') }}",
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            { data: 'DT_RowIndex', name: 'DT_RowIndex',orderable: false,searchable:false },
             { data: 'employee_id_tanos', name: 'employee_id_tanos' },
             { data: 'nrp', name: 'nrp' },
             { data: 'nama', name: 'nama' },

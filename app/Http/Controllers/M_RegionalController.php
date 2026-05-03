@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ProjectsImport;
+use App\Exports\RegionalExport;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Validator;
@@ -15,13 +15,18 @@ class M_RegionalController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table("m_regional")->select('id',"regional_id_tanos","nama")->orderBy("id","asc")->get();
+            $query = DB::table("m_regional")->select('id',"regional_id_tanos","nama")->orderBy("id","asc");
             return  Datatables::of($query)
                 ->addIndexColumn()
                 ->make(true);
         }else{
             return view("page.m_regional.index");
         }
+    }
+
+    public function export()
+    {
+       return Excel::download(new RegionalExport, 'regional.xlsx');
     }
 
     /**

@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_regional/download', [M_RegionalController::class, 'download'])->name('regional.template');
     Route::get('/m_regional/add', [M_RegionalController::class, 'create'])->name('regional.create');
     Route::post('/m_regional/import', [M_RegionalController::class, 'store'])->name('regional.save');
+    Route::get('/m_regional/export', [M_RegionalController::class, 'export'])->name('regional.export');
 });
 
 /**
@@ -95,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_job/download', [M_JobController::class, 'download'])->name('job.template');
     Route::get('/m_job/add', [M_JobController::class, 'create'])->name('job.create');
     Route::post('/m_job/import', [M_JobController::class, 'store'])->name('job.save');
+    Route::get('/m_job/export', [M_JobController::class, 'export'])->name('job.export');
 });
 
 
@@ -109,6 +111,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_unit/download', [M_UnitController::class, 'download'])->name('unit.template');
     Route::get('/m_unit/add', [M_UnitController::class, 'create'])->name('unit.create');
     Route::post('/m_unit/import', [M_UnitController::class, 'store'])->name('unit.save');
+    Route::get('/m_unit/export', [M_UnitController::class, 'export'])->name('unit.export');
 });
 
 
@@ -134,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/m_employee/download', [EmployeeController::class, 'download'])->name('employee.template');
     Route::get('/m_employee/add', [EmployeeController::class, 'create'])->name('employee.create');
     Route::post('/m_employee/import', [EmployeeController::class, 'store'])->name('employee.save');
+    Route::get('/m_employee/export', [EmployeeController::class, 'export'])->name('employee.export');
 });
 
 

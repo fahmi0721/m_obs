@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ProjectsImport;
+use App\Exports\UnitExport;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Validator;
@@ -15,7 +15,7 @@ class M_UnitController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table("m_unit")->select('id',"unit_id_tanos","nama","unit_type")->orderBy("id","asc")->get();
+            $query = DB::table("m_unit")->select('id',"unit_id_tanos","nama","unit_type")->orderBy("id","asc");
             return  Datatables::of($query)
                 ->addIndexColumn()
                 ->make(true);
@@ -37,6 +37,10 @@ class M_UnitController extends Controller
         return response()->json($m_akun);
     }
 
+    public function export()
+    {
+       return Excel::download(new UnitExport, 'unit.xlsx');
+    }
 
     
     /**

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ProjectsImport;
+use App\Exports\EmployeeExport;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -16,13 +16,18 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('employee')->get();
+            $query = DB::table('employee');
             return  Datatables::of($query)
                 ->addIndexColumn()
                 ->make(true);
         }else{
             return view("page.employee.index");
         }
+    }
+
+     public function export()
+    {
+       return Excel::download(new EmployeeExport, 'employee.xlsx');
     }
 
     /**

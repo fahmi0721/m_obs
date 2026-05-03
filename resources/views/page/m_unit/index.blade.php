@@ -26,9 +26,16 @@
             <div class="card card-success card-outline mb-4">
                 <div class="card-header d-flex  align-items-center">
                     <h5 class="mb-0">Data Unit</h5>
-                    <a href="{{ route('unit.create') }}" class="btn btn-success btn-sm ms-auto">
-                        <i class="fas fa-plus-square"></i> Upload
-                    </a>
+                    <div class="ms-auto">
+                        <a href="{{ route('unit.export') }}" class="btn btn-primary btn-sm ms-auto">
+                            <i class="fas fa-file-excel"></i> Export
+                        </a>
+                        <a href="{{ route('unit.create') }}" class="btn btn-success btn-sm ms-auto">
+                            <i class="fas fa-plus-square"></i> Upload
+                        </a>
+                        </a>
+                    </div>
+                    
                 </div>
                 <div class="card-body">
                     <table id="tb_data" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
@@ -60,7 +67,7 @@ load_data = function(){
         responsive: true,
         ajax: "{{ route('unit') }}",
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            { data: 'DT_RowIndex', name: 'DT_RowIndex',orderable: false,searchable:false },
             { data: 'unit_id_tanos', name: 'unit_id_tanos' },
             { data: 'nama', name: 'nama' },
             { data: 'unit_type', name: 'unit_type' },

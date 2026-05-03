@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ProjectsImport;
+use App\Exports\JobExport;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Validator;
@@ -15,7 +15,7 @@ class M_JobController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table("m_job")->select('id',"job_id_tanos","nama")->orderBy("id","asc")->get();
+            $query = DB::table("m_job")->select('id',"job_id_tanos","nama")->orderBy("id","asc");
             return  Datatables::of($query)
                 ->addIndexColumn()
                 ->make(true);
@@ -45,6 +45,11 @@ class M_JobController extends Controller
         $query = $request->get('q');
         $m_akun = DB::table("m_job")->where('nama','like','%'.$query.'%')->orderBy('nama','asc')->get();
         return response()->json($m_akun);
+    }
+
+    public function export()
+    {
+       return Excel::download(new JobExport, 'job.xlsx');
     }
 
 
